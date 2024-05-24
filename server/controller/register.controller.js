@@ -1,6 +1,6 @@
 const UserModel = require("../models/user.model");
 const bcryptjs = require("bcryptjs");
-async function registerUser(request, response) {
+async function userRegisterController(request, response) {
   try {
     const { name, email, password, profile_pic } = request.body;
     const checkEmailExist = await UserModel.findOne({ email });
@@ -38,4 +38,4 @@ async function registerUser(request, response) {
   }
 }
 
-module.exports = registerUser;
+module.exports = userRegisterController;
