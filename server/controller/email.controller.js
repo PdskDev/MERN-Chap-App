@@ -1,6 +1,6 @@
 const UserModel = require("../models/user.model");
 
-async function checkUserEmail(request, response) {
+async function checkEmailController(request, response) {
   try {
     const { email } = request.body;
     if (email === null || email === "" || email === undefined) {
@@ -34,4 +34,4 @@ async function checkUserEmail(request, response) {
   }
 }
 
-module.exports = checkUserEmail;
+module.exports = checkEmailController;

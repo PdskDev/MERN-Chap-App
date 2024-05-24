@@ -1,7 +1,8 @@
 const bcryptjs = require("bcryptjs");
 const UserModel = require("../models/user.model");
+const jwt = require("jsonwebtoken");
 
-async function checkPassword(request, response) {
+async function checkPasswordController(request, response) {
   try {
     const { password, userId } = request.body;
 
@@ -25,7 +26,7 @@ async function checkPassword(request, response) {
 
     if (!userToCheck) {
       response.status(401).json({
-        message: "Unauthorized user",
+        message: "Unauthorized connection",
         error: true,
       });
       return;
@@ -38,24 +39,39 @@ async function checkPassword(request, response) {
 
     if (!verifyPassword) {
       response.status(401).json({
-        message: "Unauthorized connection",
+        message: "Please check password",
         error: true,
       });
       return;
     }
 
-    const returnData = {
-      message: "Login succesfully",
-      success: true,
-      data: {
-        name: userToCheck.name,
-        email: userToCheck.email,
-        profile_pic: userToCheck.profile_pic,
-      },
+    const userTokenData = {
+      id: userToCheck._id,
+      email: userToCheck.email,
     };
 
-    return response.status(200).json({
-      message: "User verified successfully",
+    const userToken = await jwt.sign(
+      userTokenData,
+      process.env.JWT_SECRET_KEY,
+      {
+        expiresIn: "1d",
+      }
+    );
+
+    const cookieOptions = {
+      http: true,
+      secure: true,
+    };
+
+    const returnData = {
+      name: userToCheck.name,
+      email: userToCheck.email,
+      profile_pic: userToCheck.profile_pic,
+      token: userToken,
+    };
+
+    return response.cookie("token", userToken, cookieOptions).status(200).json({
+      message: "Login succesfully",
       success: true,
       data: returnData,
     });
@@ -67,4 +83,4 @@ async function checkPassword(request, response) {
   }
 }
 
-module.exports = checkPassword;
+module.exports = checkPasswordController;
