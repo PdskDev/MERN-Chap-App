@@ -8,6 +8,7 @@ async function checkUserEmail(request, response) {
         message: "Email must be indicated",
         error: true,
       });
+      return;
     }
 
     const checkedEmail = await UserModel.findOne({ email }).select("-password");
@@ -17,6 +18,7 @@ async function checkUserEmail(request, response) {
         message: "User does not exist",
         error: true,
       });
+      return;
     }
 
     return response.status(200).json({
