@@ -3,7 +3,6 @@ const cors = require("cors");
 require("dotenv").config();
 const connectDB = require("./config/connectDB");
 const router = require("./routes");
-const { json } = require("body-parser");
 
 const PORT = process.env.SERVER_PORT || 8080;
 
