@@ -59,7 +59,7 @@ async function checkPasswordController(request, response) {
     );
 
     const cookieOptions = {
-      http: true,
+      httpOnly: true,
       secure: true,
     };
 
@@ -70,11 +70,14 @@ async function checkPasswordController(request, response) {
       token: userToken,
     };
 
-    return response.cookie("token", userToken, cookieOptions).status(200).json({
-      message: "Login succesfully",
-      success: true,
-      data: returnData,
-    });
+    return response
+      .cookie("access_token", userToken, cookieOptions)
+      .status(200)
+      .json({
+        message: "Logged in succesfully",
+        success: true,
+        data: returnData,
+      });
   } catch (error) {
     response.status(500).json({
       message: error.message || error,
