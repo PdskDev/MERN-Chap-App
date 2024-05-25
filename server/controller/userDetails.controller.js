@@ -1,4 +1,4 @@
-const getUserDetailsFormToken = require("../config/getUserDetailsFormToken");
+const getUserDetailsFormToken = require("../helpers/getUserDetailsFormToken");
 
 async function userDetailsController(request, response) {
   try {
