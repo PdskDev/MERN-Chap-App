@@ -1,4 +1,5 @@
 const getUserDetailsFormToken = require("../helpers/getUserDetailsFormToken");
+const returnServerError = require("../helpers/serverErrorHandler");
 
 async function userDetailsController(request, response) {
   try {
@@ -6,10 +7,7 @@ async function userDetailsController(request, response) {
     const info = await getUserDetailsFormToken(token);
     return response.status(200).json(info);
   } catch (error) {
-    response.status(500).json({
-      message: error.message || error,
-      error: true,
-    });
+    return await returnServerError(error, response);
   }
 }
 

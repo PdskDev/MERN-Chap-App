@@ -1,3 +1,4 @@
+const returnServerError = require("../helpers/serverErrorHandler");
 const UserModel = require("../models/user.model");
 const bcryptjs = require("bcryptjs");
 async function userRegisterController(request, response) {
@@ -31,10 +32,7 @@ async function userRegisterController(request, response) {
       success: true,
     });
   } catch (error) {
-    return response.status(500).json({
-      message: error.message || error,
-      error: true,
-    });
+    return await returnServerError(error, response);
   }
 }
 

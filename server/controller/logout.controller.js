@@ -1,3 +1,5 @@
+const returnServerError = require("../helpers/serverErrorHandler");
+
 async function logout(request, response) {
   try {
     const cookieOptions = {
@@ -10,10 +12,7 @@ async function logout(request, response) {
       success: true,
     });
   } catch (error) {
-    response.status(500).json({
-      message: error.message || error,
-      error: true,
-    });
+    return await returnServerError(error, response);
   }
 }
 

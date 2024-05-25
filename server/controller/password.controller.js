@@ -1,6 +1,7 @@
 const bcryptjs = require("bcryptjs");
 const UserModel = require("../models/user.model");
 const jwt = require("jsonwebtoken");
+const returnServerError = require("../helpers/serverErrorHandler");
 
 async function checkPasswordController(request, response) {
   try {
@@ -79,10 +80,7 @@ async function checkPasswordController(request, response) {
         data: returnData,
       });
   } catch (error) {
-    response.status(500).json({
-      message: error.message || error,
-      error: true,
-    });
+    return await returnServerError(error, response);
   }
 }
 

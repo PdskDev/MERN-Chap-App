@@ -1,3 +1,4 @@
+const returnServerError = require("../helpers/serverErrorHandler");
 const UserModel = require("../models/user.model");
 
 async function checkEmailController(request, response) {
@@ -27,10 +28,7 @@ async function checkEmailController(request, response) {
       data: checkedEmail,
     });
   } catch (error) {
-    response.status(500).json({
-      message: error.message || error,
-      error: true,
-    });
+    return await returnServerError(error, response);
   }
 }
 
