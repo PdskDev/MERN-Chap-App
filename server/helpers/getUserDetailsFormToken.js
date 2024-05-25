@@ -18,7 +18,7 @@ async function getUserDetailsFormToken(token) {
       error: true,
     };
   }
-  return user;
+  return { message: "User information", success: true, data: user };
 }
 
 module.exports = getUserDetailsFormToken;
