@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import { IoClose } from "react-icons/io5";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import uploadFile from "../helpers/uploadFile";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 const RegisterPage = () => {
+  const navigate = useNavigate();
   const [data, setData] = useState({
     name: "",
     email: "",
@@ -24,11 +28,18 @@ const RegisterPage = () => {
     });
   };
 
-  const handleUplodPhoto = (e) => {
+  const handleUplodPhoto = async (e) => {
     e.preventDefault();
     e.stopPropagation();
     const file = e.target.files[0];
     setUploadedPhoto(file);
+    const uploadPhotoToCloud = await uploadFile(file);
+    setData((previousState) => {
+      return {
+        ...previousState,
+        profile_pic: uploadPhotoToCloud?.url,
+      };
+    });
   };
 
   const handleClearUploadedPhoto = (e) => {
@@ -37,12 +48,30 @@ const RegisterPage = () => {
     setUploadedPhoto(null);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     e.stopPropagation();
-  };
 
-  console.log("Photo ", uploadedPhoto);
+    const url_api_register = `${process.env.REACT_APP_BACKEND_URL}/api/register`;
+
+    try {
+      const response = await axios.post(url_api_register, data);
+      toast.success(response?.data?.message);
+      if (response.data.success) {
+        setData({
+          name: "",
+          email: "",
+          password: "",
+          profile_pic: "",
+        });
+
+        navigate("/email");
+      }
+    } catch (error) {
+      toast.error(error?.response?.data?.message);
+      console.log(error);
+    }
+  };
 
   return (
     <div className="mt-5">
