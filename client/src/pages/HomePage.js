@@ -4,6 +4,7 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { logout, setUser } from "../redux/userSlicer";
+import Slidebar from "../components/Slidebar";
 
 const HomePage = () => {
   const user = useSelector((state) => state.user);
@@ -39,8 +40,10 @@ const HomePage = () => {
   }, []);
 
   return (
-    <div>
-      HomePage
+    <div className="grid lg:grid-cols-[300px,1fr] h-screen max-h-screen">
+      <section className="bg-slate-50">
+        <Slidebar />
+      </section>
       <section>
         <Outlet />
       </section>

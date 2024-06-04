@@ -59,7 +59,7 @@ const CheckPasswordPage = () => {
           password: "",
         });
 
-        navigate("/");
+        navigate(`/${response?.data?.data?.name}`);
       }
     } catch (error) {
       toast.error(error?.response?.data?.message);
