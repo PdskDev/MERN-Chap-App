@@ -7,12 +7,13 @@ import UserAvatar from "./UserAvatar";
 import { useSelector } from "react-redux";
 import EditUserDetails from "./EditUserDetails";
 import { FiArrowUpLeft } from "react-icons/fi";
+import SearchUser from "./SearchUser";
 
 const Slidebar = () => {
   const user = useSelector((state) => state?.user);
   const [editUserOpen, setEditUserOpen] = useState(false);
   const [allUsers, setAllUsers] = useState([]);
-  const [openSearchUsers, setOpenSearchUsers] = useState(false);
+  const [openSearchUsers, setOpenSearchUsers] = useState(true);
   return (
     <div className="w-full h-full grid grid-cols-[48px,1fr] bg-white">
       <div className="bg-slate-100 w-12 h-full rounded-tr-lg rounded-br-lg py-5 text-slate-600 flex flex-col justify-between">
@@ -30,7 +31,7 @@ const Slidebar = () => {
             className="w-12 h-12 flex justify-center items-center cursor-pointer hover:bg-slate-200 rounded"
             title="Add Friend"
           >
-            <FaUserPlus size={20} />
+            <FaUserPlus size={20} onClick={() => setOpenSearchUsers(true)} />
           </div>
         </div>
         <div className="flex flex-col items-center">
@@ -83,6 +84,9 @@ const Slidebar = () => {
         />
       )}
       {/** search user */}
+      {openSearchUsers && (
+        <SearchUser onClose={() => setOpenSearchUsers(false)} />
+      )}
     </div>
   );
 };
